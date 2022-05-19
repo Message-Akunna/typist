@@ -21,11 +21,11 @@ const Layout = ({
 }: Props) => {
   return (
     <Fragment>
-      <AppHead/>
+      <AppHead />
       <TypistOptionProvider>
-        <main className='vh-100 d-flex flex-column'>
-          <Header/>
-          <section className='flex-grow-1'>
+        <main className='vh-100 min-vh-100 d-flex flex-column'>
+          <Header />
+          <section className='flex-grow-1 overflow-auto'>
             <div className='bg-dark'>
               <Container className=''>
                 <div className='py-1 d-flex justify-content-center'>
@@ -42,13 +42,11 @@ const Layout = ({
               </Container>
             </div>
             <div className=''>
-              <Container className=''>
-                {children}
-              </Container>
+              <Container className=''>{children}</Container>
             </div>
           </section>
-          <Footer/>
-          <TypistOptions/>
+          <Footer />
+          <TypistOptions />
         </main>
       </TypistOptionProvider>
     </Fragment>
