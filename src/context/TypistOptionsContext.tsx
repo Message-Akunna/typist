@@ -21,7 +21,7 @@ const TypistOptionProvider: FC<Props> = ({ children }) => {
   const [showOptions, setShowOptions] = useState(defaultState.showOptions);
   // 
   const toggleOptions = () => {
-    setShowOptions(!toggle);
+    setShowOptions(!showOptions);
   };
   // 
   const handleShowOptions = () => {
