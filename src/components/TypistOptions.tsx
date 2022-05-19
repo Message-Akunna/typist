@@ -2,6 +2,9 @@ import React, { useContext } from 'react';
 // next components
 import { useRouter } from 'next/router';
 // react bootstrap components
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 //
@@ -19,6 +22,20 @@ const TypistOptions = () => {
         </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body className='px-0'>
+        <div className='px-3 pb-3 mb-3 border-bottom'>
+          <Row className=''>
+            <Col sm={6}>
+              <Button className='w-100' variant='outline-dark'>
+                Add your texts
+              </Button>
+            </Col>
+            <Col sm={6}>
+              <Button className='w-100' variant='outline-dark'>
+                Add random texts
+              </Button>
+            </Col>
+          </Row>
+        </div>
         <h6 className='px-3'>
           Easy - <span className='text-muted fw-normal'>Time: </span> 5:00 minutes
         </h6>
