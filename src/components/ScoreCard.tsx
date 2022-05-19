@@ -11,23 +11,20 @@ const ScoreCard = ({
   correct,
   incorrect
 } : Props) => {
+  
   return (
     <section className=''>
       <h3 className='text-center'>Checkout your score !!!</h3>
       <div className='d-flex justify-content-center center align-items-center mb-3'>
         <div className='' style={{ width: '160px' }}>
-          {correct !== 0 ? (
-            <CircularProgressbarWithChildren value={Math.round((correct / (correct + incorrect)) * 100)}>
-              <div className='text-center'>
-                <h2 className='mb-0'>
-                  <strong>{Math.round((correct / (correct + incorrect)) * 100)}%</strong>
-                </h2>
-                <p className='text-muted mb-0'>Accuracy</p>
-              </div>
-            </CircularProgressbarWithChildren>
-          ) : (
-            <p className='text-danger'>0%</p>
-          )}
+          <CircularProgressbarWithChildren value={Math.round((correct / (correct + incorrect)) * 100)}>
+            <div className='text-center'>
+              <h2 className='mb-0'>
+                <strong>{Math.round((correct / (correct + incorrect)) * 100)}%</strong>
+              </h2>
+              <p className='text-muted mb-0'>Accuracy</p>
+            </div>
+          </CircularProgressbarWithChildren>
         </div>
       </div>
       <div className='text-center mt-3'>
