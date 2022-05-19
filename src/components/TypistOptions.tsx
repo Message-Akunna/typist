@@ -23,7 +23,7 @@ const TypistOptions = () => {
       </Offcanvas.Header>
       <Offcanvas.Body className='px-0'>
         <div className='px-3 pb-3 mb-3 border-bottom'>
-          <Row className=''>
+          <Row className='g-3'>
             <Col sm={6}>
               <Button className='w-100' variant='outline-dark'>
                 Add your texts
