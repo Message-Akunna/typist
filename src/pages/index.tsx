@@ -3,7 +3,6 @@ import React, { Fragment } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import type { NextPage } from 'next';
-import { useContextualRouting } from 'next-use-contextual-routing';
 // react bootstrap components
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
