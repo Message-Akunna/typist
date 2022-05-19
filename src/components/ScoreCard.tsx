@@ -11,7 +11,7 @@ const ScoreCard = ({
   correct,
   incorrect
 } : Props) => {
-  
+
   return (
     <section className=''>
       <h3 className='text-center'>Checkout your score !!!</h3>
@@ -20,7 +20,7 @@ const ScoreCard = ({
           <CircularProgressbarWithChildren value={Math.round((correct / (correct + incorrect)) * 100)}>
             <div className='text-center'>
               <h2 className='mb-0'>
-                <strong>{Math.round((correct / (correct + incorrect)) * 100)}%</strong>
+                <strong>{correct !== 0? Math.round((correct / (correct + incorrect)) * 100) : 0}%</strong>
               </h2>
               <p className='text-muted mb-0'>Accuracy</p>
             </div>
