@@ -1,4 +1,4 @@
-import React, {  useContext } from 'react';
+import React, { useContext } from 'react';
 // next files
 import Link from 'next/link';
 import Image from 'next/image';
@@ -18,7 +18,7 @@ const Header = () => {
   const { handleShowOptions } = useContext(TypistOptionsContext);
 
   return (
-    <header className='border-bottom'>
+    <header className='border-bottom flex-shrink-0'>
       <Navbar bg='light' variant='light'>
         <Container>
           <Link href='/' passHref>
