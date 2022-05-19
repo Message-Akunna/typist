@@ -11,7 +11,7 @@ import Button from 'react-bootstrap/Button';
 //
 import Typed from 'react-typed';
 // 
-import Layout from '../components/layouts'
+import Layout from '../components/layouts';
 
 const Home: NextPage = () => {
   return (
