@@ -13,6 +13,7 @@ import Button from 'react-bootstrap/Button';
 import Typed from 'react-typed';
 //
 import Layout from '../components/layouts';
+import TimeModal from '../components/TimeModal';
 import ScoreCard from '../components/ScoreCard';
 //
 import randomWords from 'random-words';
@@ -20,11 +21,11 @@ import randomWords from 'random-words';
 
 const NUMB_OF_WORDS = 100;
 const SECONDS = 60;
-// 
+//
 interface inputEL {
   current: HTMLInputElement | null;
 }
-// 
+//
 const Home: NextPage = () => {
   const [words, setWords] = useState<Array<string>>([]);
   const [countDown, setCountDown] = useState<number>(SECONDS);
@@ -32,10 +33,14 @@ const Home: NextPage = () => {
   const [currWordIndex, setCurrWordIndex] = useState<number>(0);
   const [currCharIndex, setCurrCharIndex] = useState<number>(-1);
   const [currChar, setCurrChar] = useState<string>('');
+  const [correctWordIndexArray, setCorrectWordIndexArray] = useState<Array<number>>([]);
+  const [incorrectWordIndexArray, setIncorrectWordIndexArray] = useState<Array<number>>([]);
   const [correct, setCorrect] = useState<number>(0);
   const [incorrect, setIncorrect] = useState<number>(0);
   const [status, setStatus] = useState<string>('waiting');
   const textInput: inputEL = useRef(null);
+  //modal state
+  const [show, setShow] = useState<boolean>(false);
 
   useEffect(() => {
     setWords(generateWords());
@@ -47,6 +52,11 @@ const Home: NextPage = () => {
     }
   }, [status]);
 
+  // modal functions
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  //
   const generateWords = () => {
     return new Array(NUMB_OF_WORDS).fill(null).map(() => randomWords());
   };
@@ -54,6 +64,8 @@ const Home: NextPage = () => {
   const start = () => {
     if (status === 'finished') {
       setWords(generateWords());
+      setCorrectWordIndexArray([]);
+      setIncorrectWordIndexArray([]);
       setCurrWordIndex(0);
       setCorrect(0);
       setIncorrect(0);
@@ -100,23 +112,36 @@ const Home: NextPage = () => {
     const doesItMatch = wordToCompare === currInput.trim();
     if (doesItMatch) {
       setCorrect(correct + 1);
+      setCorrectWordIndexArray((prevState) => Array.from(new Set([...prevState, currWordIndex])));
     } else {
       setIncorrect(incorrect + 1);
+      setIncorrectWordIndexArray((prevState) => Array.from(new Set([...prevState, currWordIndex])));
     }
   };
 
   const getCharClass = (wordIdx: number, charIdx: number, char: string) => {
     if (wordIdx === currWordIndex && charIdx === currCharIndex && currChar && status !== 'finished') {
       if (char === currChar) {
-        return 'bg-success';
+        return 'bg-success text-white';
       } else {
-        return 'bg-danger';
+        return 'bg-danger text-white';
       }
     } else if (wordIdx === currWordIndex && currCharIndex >= words[currWordIndex].length) {
-      return 'bg-danger';
+      return 'bg-danger text-white';
     } else {
       return '';
     }
+  };
+
+  const getWordClass = (wordIdx: number, word: string) => {
+    if (wordIdx === currWordIndex) {
+      return 'bg-warning';
+    } else if (correctWordIndexArray.indexOf(wordIdx) > -1) {
+      return 'text-success';
+    } else if (incorrectWordIndexArray.indexOf(wordIdx) > -1) {
+      return 'text-danger';
+    }
+    return '';
   };
 
   return (
@@ -126,12 +151,23 @@ const Home: NextPage = () => {
           <Col className='' lg={8}>
             {status === 'started' && (
               <Fragment>
-                <h5 className=''>Start Typing</h5>
+                <div className='d-flex justify-content-between align-items-center'>
+                  <h5 className=''>Start Typing</h5>
+                  <div className=''>
+                    <span className='text-muted'>Word count | </span>
+                    <span className='text-success pe-3'>
+                      Correct : <span className='fw-bold'>{correctWordIndexArray.length}</span>
+                    </span>
+                    <span className='text-danger'>
+                      Incorrect : <span className='fw-bold'>{incorrectWordIndexArray.length}</span>
+                    </span>
+                  </div>
+                </div>
                 <Card className='' style={{ minHeight: '120px' }}>
                   <Card.Body>
                     {words.map((word, i) => (
-                      <span key={i} className={currWordIndex === i ? 'text-warning' : currWordIndex > i ? 'text-decoration-line-through' : 'text-dark'}>
-                        <span>
+                      <span key={i}>
+                        <span className={getWordClass(i, word)}>
                           {word.split('').map((char, idx) => (
                             <span className={getCharClass(i, idx, char)} key={idx}>
                               {char}
@@ -147,7 +183,7 @@ const Home: NextPage = () => {
             )}
             <Row className='border-top pt-3 mt-3'>
               <Col xs={6} md={4} className='order-2 order-md-1 d-grid d-md-block'>
-                <Button variant='outline-dark' className=''>
+                <Button variant='outline-dark' className='' disabled={status === 'started'} onClick={handleShow}>
                   <span className='d-flex flex-column align-items-sm-start align-items-center'>
                     <svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' className='text-muted' fill='currentColor' viewBox='0 0 16 16'>
                       <path d='M8.5 5.6a.5.5 0 1 0-1 0v2.9h-3a.5.5 0 0 0 0 1H8a.5.5 0 0 0 .5-.5V5.6z' />
@@ -165,7 +201,7 @@ const Home: NextPage = () => {
                 </div>
               </Col>
               <Col xs={6} md={4} className='text-end order-3 d-grid d-md-block'>
-                <Button variant='outline-dark' className='' onClick={start}>
+                <Button variant='outline-dark' className='' onClick={start} disabled={status === 'started'}>
                   <span className='d-flex flex-column align-items-sm-start align-items-center'>
                     <svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='currentColor' className='text-muted' viewBox='0 0 16 16'>
                       <path d='M14 5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h12zM2 4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H2z' />
@@ -189,10 +225,18 @@ const Home: NextPage = () => {
                 onChange={(e) => setCurrInput(e.target.value)}
               />
             </div>
-            {status === 'finished' && <ScoreCard correct={correct} incorrect={incorrect} />}
+            {status === 'finished' && (
+              <ScoreCard
+                correct={correct}
+                incorrect={incorrect}
+                correctWordIndexArray={correctWordIndexArray}
+                incorrectWordIndexArray={incorrectWordIndexArray}
+              />
+            )}
           </Col>
         </Row>
       </Layout>
+      <TimeModal show={show} handleClose={handleClose} handleShow={handleShow} />
     </Fragment>
   );
 };
