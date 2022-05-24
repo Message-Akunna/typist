@@ -15,7 +15,9 @@ const TimeModal = ({ show, handleClose, handleShow }: Props) => {
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header className='py-2' closeButton>
-        <Modal.Title className='h5 mb-0'>Choose convenient time </Modal.Title>
+        <Modal.Title className='h5 mb-0'>
+          Choose convenient time <span className='fw-normal text-muted'> | work in progress </span>
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form className=''>
