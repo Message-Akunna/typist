@@ -18,7 +18,7 @@ const TypistOptions = () => {
     <Offcanvas show={showOptions} onHide={handleCloseOptions} placement='end' scroll={true} backdrop={false}>
       <Offcanvas.Header closeButton className='border-bottom py-2'>
         <Offcanvas.Title className='py-1'>
-          Typist options <small className='text-muted fw-normal'>work in progress </small>
+          Typist options <small className='text-muted fw-normal'> | work in progress </small>
         </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body className='px-0'>
